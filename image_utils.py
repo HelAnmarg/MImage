@@ -22,27 +22,25 @@ def save_image(img, output_dir, original_filename):
         mirrored_dir = os.path.join(output_dir, "mirrored")
         os.makedirs(mirrored_dir, exist_ok=True)
 
-        # Перевірити, чи існує файл з такою ж назвою
         full_path = os.path.join(mirrored_dir, original_filename)
         if os.path.exists(full_path):
             layout = [
                 [sg.Text(f"Файл {original_filename} вже існує. Оберіть дію:")],
-                [sg.Button("Зробити копію", size=(20, 2), button_color=("white", "#25C8C2")), sg.Button("Замінити", size=(20, 2), button_color=("white", "#25C8C2")), sg.Button("Відмінити", size=(20, 2), button_color=("white", "#25C8C2"))]
+                [sg.Button("Зробити копію", size=(20, 2), button_color=("white", "#25C8C2")),
+                 sg.Button("Замінити", size=(20, 2), button_color=("white", "#25C8C2")),
+                 sg.Button("Відмінити", size=(20, 2), button_color=("white", "#25C8C2"))]
             ]
             choice_window = sg.Window("Конфлікт імен", layout, size=(560, 120), finalize=True)
             event, _ = choice_window.read()
             choice_window.close()
             if event == "Зробити копію":
-                # Зробити копію з іншою назвою
                 i = 1
                 while os.path.exists(os.path.join(mirrored_dir, f"{os.path.splitext(original_filename)[0]}_{i}{os.path.splitext(original_filename)[1]}")):
                     i += 1
                 original_filename = f"{os.path.splitext(original_filename)[0]}_{i}{os.path.splitext(original_filename)[1]}"
             elif event == "Замінити":
-                # Замінити існуючий файл
                 os.remove(full_path)
             else:
-                # Відмінити дію
                 return None
 
         mirrored_path = os.path.join(mirrored_dir, original_filename)
