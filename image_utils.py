@@ -49,3 +49,7 @@ def save_image(img, output_dir, original_filename):
     except Exception as e:
         sg.popup_error(f"Виникла помилка при збереженні зображення: {e}")
         return None
+
+
+def show_image_diff():
+    return None
